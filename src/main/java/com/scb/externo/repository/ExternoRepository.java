@@ -41,11 +41,17 @@ public class ExternoRepository {
 	public ResponseEntity<JSONObject> validarCartao(Map<String, String> headers, NovoCartaoDeCreditoDTO novoCartao) {
 
 		String uri = "https://api-sandbox.getnet.com.br/v1/cards/verification";
+		JSONObject teste = new JSONObject();
+		teste.put("number_token", "dfe05208b105578c070f806c80abd3af09e246827d29b866cf4ce16c205849977c9496cbf0d0234f42339937f327747075f68763537b90b31389e01231d4d13c");
+		teste.put("expiration_month", "12");
+		teste.put("expiration_year", "28");
 
-		ResponseEntity<JSONObject> res = new RestTemplate().postForEntity(uri, novoCartao, JSONObject.class);
+	//	HttpEntity<JSONObject> entity = new HttpEntity<>(teste, headers);
+
+	//	ResponseEntity<JSONObject> res = new RestTemplate().postForEntity(uri, entity, JSONObject.class);
 		
-		System.out.println(res);
+	//	System.out.println(res);
 		
-		return res;
+		return null;
 	}    
 }
