@@ -10,6 +10,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
+import com.scb.externo.service.Email.EmailService;
+
 @Configuration
 @PropertySource("classpath:env/mail.properties")
 public class EmailConfig {
@@ -34,4 +36,8 @@ public class EmailConfig {
         return mailSender;
     }
     
+    @Bean
+    public EmailService emailService() {
+        return new EmailService();
+    }
 }

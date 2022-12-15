@@ -1,41 +1,17 @@
- variables:
+variables:
   SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
   GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
- 
- spring:
-  mail:
-    protocol: smtp
-    
- before_script:
- - apt-get update -qy
- - apt-get install -y ruby-dev
- - gem install dpl
- 
- sonarcloud-check:
-  image: maven:3.6.3-jdk-11
+sonarcloud-check:
+  image: maven:3-openjdk-11 # Or newer
   cache:
     key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
   script:
-    - mvn verify sonar:sonar
+    - mvn verify sonar:sonar -Dsonar.projectKey=pm_scb_microsservico-externo
   only:
     - merge_requests
     - master
     - develop
- 
- deploy:
-  image: ruby:latest
-  script:
-   - dpl --provider=heroku --app=$HEROKU_APP --api-key=$HEROKU_API_KEY
-  only:
-   - main
+    - push
 
-trigger_terraform_plan:
-    stage: trigger_plan
-    rules:
-        - if: ${aws_account}
-          when: always
-        - when: never
-    trigger:
-        include: child_jobs/ymls/terraform_plan_template.yml
